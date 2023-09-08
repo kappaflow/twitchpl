@@ -1,4 +1,4 @@
-module github.com/wmw64/twitchpl
+module github.com/kappaflow/twitchpl
 
 go 1.20
 

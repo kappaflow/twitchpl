@@ -17,7 +17,7 @@ import (
 const (
 	ClientID = "kimne78kx3ncx6brgo4mv6wki5h1ko"
 	UsherAPI = "https://usher.ttvnw.net/api/channel/hls/%s.m3u8"
-	TTVAPI   = "https://api.ttv.lol/playlist/%s.m3u8"
+	TTVAPI   = "https://eu.luminous.dev/playlist/%s"
 	GraphURL = "https://gql.twitch.tv/gql"
 )
 
@@ -68,6 +68,7 @@ func Get(ctx context.Context, channel string, useAdProxy bool) (*PlaylistManager
 	}
 
 	pl, err := p.getPlaylist(useAdProxy)
+
 	if err != nil {
 		return pl, err
 	}
@@ -215,11 +216,13 @@ func (p *PlaylistManager) getPlaylist(useAdProxy bool) (*PlaylistManager, error)
 
 	URL := pURL.String()
 
-	if useAdProxy {
-		path := pURL.Scheme + "://" + pURL.Host + pURL.Path
-		query := "%3F" + pURL.RawQuery // puzzled over this for 2 hours "?" needs to be converted to "%3F"
-		URL = path + query
-	}
+	/*
+		if useAdProxy {
+			path := pURL.Scheme + "://" + pURL.Host + pURL.Path
+			query := "%3F" + pURL.RawQuery // puzzled over this for 2 hours "?" needs to be converted to "%3F"
+			URL = path + query
+		}
+	*/
 
 	req, err := http.NewRequest(http.MethodGet, URL, http.NoBody)
 	if err != nil {
@@ -227,9 +230,11 @@ func (p *PlaylistManager) getPlaylist(useAdProxy bool) (*PlaylistManager, error)
 		return p, fmt.Errorf("failed to create GET request: %w", err)
 	}
 
-	if useAdProxy {
-		req.Header.Set("x-donate-to", "https://ttv.lol/donate") // otherwise you get {"message":"sadge"}
-	}
+	/*
+		if useAdProxy {
+			req.Header.Set("x-donate-to", "https://ttv.lol/donate") // otherwise you get {"message":"sadge"}
+		}
+	*/
 
 	res, err := p.doRequestWithRetries(req)
 	if err != nil {

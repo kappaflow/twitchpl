@@ -4,7 +4,7 @@ import (
 	"context"
 	"os"
 
-	"github.com/wmw64/twitchpl"
+	"github.com/kappaflow/twitchpl"
 )
 
 func main() {
